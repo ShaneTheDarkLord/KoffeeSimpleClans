@@ -5,10 +5,13 @@ import net.sacredlabyrinth.phaed.simpleclans.Clan;
 import net.sacredlabyrinth.phaed.simpleclans.ClanPlayer;
 import net.sacredlabyrinth.phaed.simpleclans.Helper;
 import net.sacredlabyrinth.phaed.simpleclans.SimpleClans;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.text.MessageFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author phaed
@@ -74,10 +77,25 @@ public class CreateCommand {
             }
         }
 
-        if (!cleanTag.matches("[0-9a-zA-Z]*")) {
+        String regEx="[`~!@#$%^*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(cleanTag);
+        if(matcher.find()){
             ChatBlock.sendMessage(player, ChatColor.RED + plugin.getLang("your.clan.tag.can.only.contain.letters.numbers.and.color.codes"));
             return;
         }
+        /*
+        if (!cleanTag.matches("[0-9a-zA-Z]*")) {
+            Bukkit.getLogger().info(cleanTag);
+            Pattern p=Pattern.compile("[u4e00-u9fa5]");
+            Matcher m=p.matcher(cleanTag);
+            if(!m.find()) {
+                ChatBlock.sendMessage(player, ChatColor.RED + plugin.getLang("your.clan.tag.can.only.contain.letters.numbers.and.color.codes"));
+                return;
+            }
+        }
+
+         */
         if (name.contains("&")) {
             ChatBlock.sendMessage(player, ChatColor.RED + plugin.getLang("your.clan.name.cannot.contain.color.codes"));
             return;
